@@ -23,3 +23,31 @@ export const getUsersList = ({ pagenum, pagesize }) => {
     params: { pagenum, pagesize }
   })
 }
+
+// 添加用户
+export const addUser = ({ username, password, email, mobile }) => {
+  return request({
+    method: 'POST',
+    url: 'users',
+    data: { username, password, email, mobile }
+  })
+}
+
+// 删除单个用户
+// 根据id删除角色
+export const delUser = id => {
+  return request({
+    method: 'DELETE',
+    url: `/users/${id}`
+  })
+}
+// 编辑用户  给了啥参数就传啥参数
+export const editUser = ({ id, email, mobile }) => {
+  return request({
+    method: 'PUT',
+    url: `/users/${id}`,
+    data: { id, email, mobile }
+  })
+}
+
+// 分配角色
