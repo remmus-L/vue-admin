@@ -11,11 +11,17 @@
       <el-row type="flex" align="middle" :gutter="20">
         <el-col :span="8">
           <el-input
+            clearable
+            @clear="getUsersList"
             placeholder="请输入内容"
-            v-model="input3"
+            v-model="paramsObj.query"
             class="input-with-select"
           >
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="getUsersList"
+            ></el-button>
           </el-input>
         </el-col>
         <el-col :span="4">
@@ -156,7 +162,6 @@ export default {
   },
   data () {
     return {
-      input3: '',
       paramsObj: {
         pagenum: 1, // 第一页的数据
         pagesize: 4,
@@ -212,7 +217,7 @@ export default {
         const res = await getUsersList(this.paramsObj)
         this.usersList = res.data.data.users
         this.total = res.data.data.total
-        console.log('用户列表', res)
+        // console.log('用户列表', res)
       } catch (err) {
         console.log(err)
       }

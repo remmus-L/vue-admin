@@ -17,10 +17,10 @@ export const login = ({ username, password }) => {
 }
 
 // 用户列表数据
-export const getUsersList = ({ pagenum, pagesize }) => {
+export const getUsersList = ({ query, pagenum, pagesize }) => {
   return request({
     url: 'users',
-    params: { pagenum, pagesize }
+    params: { query, pagenum, pagesize }
   })
 }
 

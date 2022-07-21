@@ -74,7 +74,6 @@ export default {
     this.getMenuList()
     // 从本地存储拿出当前数据
     this.activePath = window.localStorage.getItem('activePath')
-    console.log('1', this.activePath)
   },
   data () {
     return {
@@ -100,7 +99,7 @@ export default {
     async getMenuList () {
       try {
         const res = await getMenuList()
-        console.log('左侧菜单', res)
+        // console.log('左侧菜单', res)
         if (res.data.meta.status !== 200) {
           return this.$message.error(res.data.meta.msg)
         } else {
