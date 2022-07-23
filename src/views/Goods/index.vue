@@ -11,11 +11,17 @@
       <el-row type="flex" align="middle" :gutter="20">
         <el-col :span="8">
           <el-input
+            @clear="getGoodsList"
+            clearable
             placeholder="请输入内容"
-            v-model="input1"
+            v-model="paramsObj.query"
             class="input-with-select"
           >
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="getGoodsList"
+            ></el-button>
           </el-input>
         </el-col>
         <el-col :span="4">
@@ -41,16 +47,10 @@
         <el-table-column label="创建时间" prop="upd_time"> </el-table-column>
         <el-table-column label="操作">
           <template>
-            <el-button
-              type="primary"
-              icon="el-icon-edit"
-              size="small"
+            <el-button type="primary" icon="el-icon-edit" size="small"
               >编辑</el-button
             >
-            <el-button
-              type="info"
-              icon="el-icon-delete"
-              size="small"
+            <el-button type="info" icon="el-icon-delete" size="small"
               >删除</el-button
             >
           </template>

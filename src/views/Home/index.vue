@@ -139,7 +139,7 @@ export default {
 .el-header {
   display: flex;
   justify-content: space-between;
-  background-color: pink;
+  background-color: rgb(84, 92, 100);
   padding-left: 0;
   align-items: center;
   color: #fff;
@@ -162,6 +162,7 @@ export default {
   background-color: rgb(84, 92, 100);
   .el-menu {
     border-right: none;
+    background-color: pink;
   }
 }
 .iconfont {
@@ -169,7 +170,7 @@ export default {
 }
 .toggle-menu {
   height: 40px;
-  background-color: #4a5064;
+  background-color: #8fddfe;
   font-size: 18px;
   line-height: 40px;
   color: #fff;

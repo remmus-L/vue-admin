@@ -34,7 +34,6 @@ export const addUser = ({ username, password, email, mobile }) => {
 }
 
 // 删除单个用户
-// 根据id删除角色
 export const delUser = id => {
   return request({
     method: 'DELETE',
