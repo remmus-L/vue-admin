@@ -43,7 +43,7 @@
             <!-- 二级菜单 -->
             <!-- 是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转  现在index是路径了-->
             <el-menu-item
-              @click="saveNavState('/' + item1.path)"
+              @click="saveNavState('/' + item1.path, item, item1)"
               :index="'/' + item1.path + ''"
               v-for="item1 in item.children"
               :key="item1.id"
@@ -60,6 +60,12 @@
       </el-aside>
       <!-- 主体区域 -->
       <el-main>
+        <!-- welcom没有保存到本地 所以如果activePath存到了本地-->
+        <el-breadcrumb separator-class="el-icon-arrow-right" v-if="activePath">
+          <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ item.authName }}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ item1.authName }}</el-breadcrumb-item>
+        </el-breadcrumb>
         <!-- 路由占位符 -->
         <router-view></router-view>
       </el-main>
@@ -71,9 +77,9 @@
 import { getMenuList } from '@/api/menus'
 export default {
   created () {
-    this.getMenuList()
-    // 从本地存储拿出当前数据
     this.activePath = window.localStorage.getItem('activePath')
+
+    this.getMenuList()
   },
   data () {
     return {
@@ -88,7 +94,9 @@ export default {
       // 是否折叠
       isCollapse: false,
       // 被激活的链接的地址 el-ui中default-active当前激活菜单的 index
-      activePath: ''
+      activePath: '',
+      item: '',
+      item1: ''
     }
   },
   methods: {
@@ -99,11 +107,25 @@ export default {
     async getMenuList () {
       try {
         const res = await getMenuList()
-        // console.log('左侧菜单', res)
+        console.log('左侧菜单', res)
         if (res.data.meta.status !== 200) {
           return this.$message.error(res.data.meta.msg)
         } else {
           this.menuList = res.data.data
+          this.menuList.map(item => {
+            item.children.map(item1 => {
+              // item1.path路由里面的路径 item1.path这个里面没有带/   activePath中带/  所以要处理之后对比
+              if (item1.path === this.activePath.replace('/', '')) {
+                // 判断当前路径和路由中的路径是否相等  如果相等就把当前的名字给他
+                // 去拿getMenuList这个列表的时候就去比较了 item和item1就可以及时的更新
+                this.item = item
+                this.item1 = item1
+              }
+              return null
+            })
+
+            return null
+          })
         }
       } catch (err) {
         console.log(err)
@@ -114,7 +136,9 @@ export default {
       this.isCollapse = !this.isCollapse
     },
     // 将index 路径存储到本地
-    saveNavState (activePath) {
+    saveNavState (activePath, item, item1) {
+      this.item = item
+      this.item1 = item1
       // this.$store.commit('activePath', activePath)
       window.localStorage.setItem('activePath', activePath)
       // 点击不同的链接的时候 给这个activePath重新赋值
@@ -177,5 +201,9 @@ export default {
   text-align: center;
   // letter-spacing: 0.2em;
   cursor: pointer;
+}
+.el-breadcrumb__item {
+  margin-bottom: 15px;
+  font-size: 18px;
 }
 </style>

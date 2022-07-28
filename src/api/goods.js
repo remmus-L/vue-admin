@@ -6,3 +6,10 @@ export const getGoodsList = ({ query, pagenum, pagesize }) => {
     params: { query, pagenum, pagesize }
   })
 }
+// 删除商品
+export const delGoods = id => {
+  return request({
+    method: 'DELETE',
+    url: `goods/${id}`
+  })
+}
